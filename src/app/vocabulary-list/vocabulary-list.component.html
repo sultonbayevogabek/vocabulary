@@ -1,0 +1,53 @@
+<div class="bg-body-tertiary fs-14">
+  <div class="container vh-100 d-flex flex-column">
+    <div class="d-flex align-items-center justify-content-between px-1 py-3">
+      <h3 class="fs-4">Vocabulary list</h3>
+
+      <div class="d-flex w-50 gap-2">
+        <button class="btn btn-primary w-50 fs-14 rounded-0" (click)="showVocabularyForm = !showVocabularyForm">New +</button>
+        <button class="btn btn-primary w-50 fs-14 rounded-0">Play &#9658;</button>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column flex-grow-1 gap-1 px-1 pb-3 pt-1 overflow-auto">
+      <table>
+        <tr *ngFor="let item of vocabularies | paginate: { itemsPerPage: 20, currentPage }">
+          <td class="align-top border py-1 px-2 text-center">
+            {{ item?.index }}
+          </td>
+          <td class="border">
+            <textarea class="d-block w-100 h-100 bg-transparent border-0" #word [value]="item?.word" (input)="updateVocabulary(item, word.value, definition.value)"></textarea>
+          </td>
+          <td class="border">
+            <textarea class="d-block w-100 h-100 bg-transparent border-0" #definition [value]="item?.definition" (input)="updateVocabulary(item, word.value, definition.value)"></textarea>
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="px-3 pt-3 border mx-1 shadow">
+      <div class="d-flex justify-content-center mb-1">
+        <pagination-controls
+          [maxSize]="5"
+          [previousLabel]="''"
+          [nextLabel]="''"
+        ></pagination-controls>
+      </div>
+      <form class="row gap-2 gap-md-0 pb-3" *ngIf="showVocabularyForm" [formGroup]="vocabularyForm" (ngSubmit)="addNewWord()">
+        <div class="col-md-5 px-1">
+          <textarea class="form-control fs-14 rounded-0" placeholder="Word" [formControlName]="'word'" (keydown.enter)="$event.preventDefault(); addNewWord()"></textarea>
+        </div>
+
+        <div class="col-md-5 px-1">
+          <textarea class="form-control fs-14 rounded-0" placeholder="Definition" [formControlName]="'definition'" (keydown.enter)="$event.preventDefault(); addNewWord()"></textarea>
+        </div>
+
+        <div class="col-md-2 px-1">
+          <button [disabled]="vocabularyForm.invalid" class="btn btn-primary w-100 rounded-0 fs-14">Add +</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+</div>
+
