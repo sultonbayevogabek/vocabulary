@@ -30,7 +30,7 @@ export class VocabularyListComponent implements OnInit {
   }
 
   removeSpacesAndToLower(text: string): string {
-    return text.replace(/ /g, '');
+    return text.replace(/ /g, '')?.toLowerCase();
   }
 
   addNewWord(): void {

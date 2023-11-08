@@ -27,7 +27,7 @@ export class VocabularyGameComponent implements OnInit {
     }
 
     removeSpacesAndToLower(text: string): string {
-        return text.replace(/ /g, '');
+        return text.replace(/ /g, '')?.toLowerCase();
     }
 
     getVocabulariesList(): void {
