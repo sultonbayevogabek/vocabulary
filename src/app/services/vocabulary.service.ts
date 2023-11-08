@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { IVocabulary } from '../models/models';
 import { HttpClient } from '@angular/common/http';
 
-const HOST = 'https://vocabulary-79f54-default-rtdb.firebaseio.com/vocabularies.json';
+const HOST = 'https://vocabulary-eaf35-default-rtdb.firebaseio.com/vocabularies.json';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +23,8 @@ export class VocabularyService {
     return this._http.post<{ success: boolean }>(HOST, payload);
   }
 
-  updateVocabulary(id: string, payload: any): Observable<{ success: boolean }> {
-    return this._http.patch<{ success: boolean }>('https://vocabulary-79f54-default-rtdb.firebaseio.com/vocabularies.json/', JSON.stringify({
+  updateVocabulary(id: string, payload: IVocabulary): Observable<{ success: boolean }> {
+    return this._http.patch<{ success: boolean }>(HOST, JSON.stringify({
       [id]: payload
     }));
   }

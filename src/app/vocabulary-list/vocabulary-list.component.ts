@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VocabularyService } from '../services/vocabulary.service';
 import { IVocabulary } from '../models/models';
@@ -11,6 +11,7 @@ import { IVocabulary } from '../models/models';
 })
 
 export class VocabularyListComponent implements OnInit {
+  @ViewChild('wordTextArea') wordTextArea!: ElementRef;
   public showVocabularyForm = false;
   public vocabularyForm: FormGroup = new FormGroup({
     word: new FormControl('', Validators.required),
@@ -74,7 +75,6 @@ export class VocabularyListComponent implements OnInit {
               id: key
             });
           }
-          console.log(this.vocabularies);
         }
       }, () => {
         this.vocabularies = [];
@@ -88,5 +88,21 @@ export class VocabularyListComponent implements OnInit {
       definition
     })
       .subscribe();
+  }
+
+  toggleVocabularyForm(): void {
+    this.showVocabularyForm = !this.showVocabularyForm;
+
+    if (this.showVocabularyForm) {
+      this.wordTextArea.nativeElement.focus();
+    }
+  }
+
+  toggleFullScreen(): void {
+    if (document.fullscreen) {
+      document.exitFullscreen().then();
+    } else {
+      document.documentElement.requestFullscreen().then()
+    }
   }
 }

@@ -1,0 +1,27 @@
+.ngx-pagination {
+  padding-left: 0;
+}
+
+.ngx-pagination .current {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+.ngx-pagination a {
+    display: grid !important;
+    place-items: center !important;
+    width: 40px;
+    height: 40px;
+    border-radius: 50% !important;
+}
+
+.ngx-pagination .pagination-next a:after {
+  margin-left: 0 !important;
+}
+
+.ngx-pagination .pagination-previous a:before {
+  margin-right: 0 !important;
+}
