@@ -11,7 +11,7 @@
     </div>
 
     <div [class.visually-hidden]="!currentQuestion" class="fs-4">
-        <div>{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></div>
+        <div>{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion.definition }}</strong></div>
 
         <div class="mt-2 border-danger px-4 py-2 bg-danger text-white fs-4" *ngIf="rightAnswer">
             Right answer: <strong>{{ rightAnswer }}</strong>
