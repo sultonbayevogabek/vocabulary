@@ -2,6 +2,7 @@ import {Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angu
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VocabularyService } from '../services/vocabulary.service';
 import { IVocabulary } from '../models/models';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'vocabulary-list',
@@ -21,7 +22,8 @@ export class VocabularyListComponent implements OnInit {
   public currentPage = 1;
 
   constructor(
-    private _vocabularyService: VocabularyService
+    private _vocabularyService: VocabularyService,
+    private _router: Router
   ) {
   }
 
@@ -58,13 +60,14 @@ export class VocabularyListComponent implements OnInit {
     this._vocabularyService.addNewWord(payload)
       .subscribe(() => {
         this.vocabularyForm.reset();
-        this.getVocabulariesList();
+        this.wordTextArea.nativeElement.focus();
+        this.getVocabulariesList(true);
       }, () => {
         alert('Error occurred');
       });
   }
 
-  getVocabulariesList(): void {
+  getVocabulariesList(afterAddingNewWord = false): void {
     this._vocabularyService.getVocabulariesList()
       .subscribe(res => {
         if (res) {
@@ -74,6 +77,9 @@ export class VocabularyListComponent implements OnInit {
               ...res[key],
               id: key
             });
+          }
+          if (afterAddingNewWord) {
+            this.currentPage = Math.ceil(this.vocabularies.length / 20);
           }
         }
       }, () => {
@@ -103,6 +109,15 @@ export class VocabularyListComponent implements OnInit {
       document.exitFullscreen().then();
     } else {
       document.documentElement.requestFullscreen().then()
+    }
+  }
+
+  play(): void {
+    const interval = prompt('Enter questions interval', '1-' + this.vocabularies?.length);
+
+    if (interval) {
+      localStorage.setItem('interval', JSON.stringify(interval));
+      this._router.navigate(['/game']).then();
     }
   }
 }

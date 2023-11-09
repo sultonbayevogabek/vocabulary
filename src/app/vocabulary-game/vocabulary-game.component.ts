@@ -1,15 +1,16 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {VocabularyService} from '../services/vocabulary.service';
-import {IVocabulary} from '../models/models';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { VocabularyService } from '../services/vocabulary.service';
+import { IVocabulary } from '../models/models';
 
 @Component({
     selector: 'vocabulary-game',
     templateUrl: './vocabulary-game.component.html',
-    styleUrls: ['./vocabulary-game.component.scss'],
+    styleUrls: [ './vocabulary-game.component.scss' ],
     encapsulation: ViewEncapsulation.None
 })
 
 export class VocabularyGameComponent implements OnInit {
+    @ViewChild('answerInput') answerInput!: ElementRef;
     public vocabularies: IVocabulary[] = [];
     public totalQuestionsCount = 0;
     public resolvedQuestionsCount = 0;
@@ -37,6 +38,10 @@ export class VocabularyGameComponent implements OnInit {
                     for (const key in res) {
                         this.vocabularies.push(res[key]);
                     }
+                    const intervals = JSON.parse(localStorage.getItem('interval')!).split('-');
+                    const fromIndex = +intervals![0];
+                    const toIndex = +intervals![1];
+                    this.vocabularies = this.vocabularies.slice(fromIndex - 1, toIndex);
                     this.totalQuestionsCount = this.vocabularies.length;
                     this.startGame();
                 }
@@ -49,12 +54,12 @@ export class VocabularyGameComponent implements OnInit {
         if (document.fullscreen) {
             document.exitFullscreen().then();
         } else {
-            document.documentElement.requestFullscreen().then()
+            document.documentElement.requestFullscreen().then();
         }
     }
 
     generateRandomIndex(remindersLength: number): number {
-        return Math.ceil(Math.random() * remindersLength) - 1
+        return Math.ceil(Math.random() * remindersLength) - 1;
     }
 
     startGame(): void {
@@ -67,24 +72,29 @@ export class VocabularyGameComponent implements OnInit {
         }
 
         if (this.removeSpacesAndToLower(this.currentQuestion?.word) === this.removeSpacesAndToLower(this.answerWord)) {
-            new Audio('assets/success.mp3').play()
+            const successAudio = new Audio('assets/success.mp3');
+            successAudio.volume = 0.05;
+            successAudio.play()
                 .then(() => {
                     this.rightAnswer = '';
                     this.nextQuestion();
-                })
+                });
         } else {
-            new Audio('assets/fail.mp3').play()
+            const failAudio = new Audio('assets/fail.mp3');
+            failAudio.volume = 0.05;
+            failAudio.play()
                 .then(() => {
-                    this.rightAnswer = this.currentQuestion.word;
-                })
+                    this.rightAnswer = this.currentQuestion?.word;
+                });
         }
     }
 
     nextQuestion(): void {
         if (this.totalQuestionsCount > this.resolvedQuestionsCount) {
+            this.answerInput.nativeElement.focus();
             this.resolvedQuestionsCount++;
             this.answerWord = '';
-            this.rightAnswer = ''
+            this.rightAnswer = '';
             const index = this.generateRandomIndex(this.vocabularies.length);
             this.currentQuestion = this.vocabularies[index];
             this.vocabularies.splice(index, 1);
