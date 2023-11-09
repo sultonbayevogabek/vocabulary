@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { IVocabulary } from '../models/models';
 import { HttpClient } from '@angular/common/http';
 
-const HOST = 'https://vocabulary-eaf35-default-rtdb.firebaseio.com/vocabularies.json';
+const HOST = 'https://vocabulary-eaf35-default-rtdb.firebaseio.com/vocabularies-munisa.json';
 
 @Injectable({
   providedIn: 'root'
