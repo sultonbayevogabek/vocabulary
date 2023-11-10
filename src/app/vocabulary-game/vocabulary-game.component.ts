@@ -11,6 +11,8 @@ import { IVocabulary } from '../models/models';
 
 export class VocabularyGameComponent implements OnInit {
     @ViewChild('answerInput') answerInput!: ElementRef;
+    @ViewChild('success') success!: ElementRef;
+    @ViewChild('fail') fail!: ElementRef;
     public vocabularies: IVocabulary[] = [];
     public totalQuestionsCount = 0;
     public resolvedQuestionsCount = 0;
@@ -72,20 +74,23 @@ export class VocabularyGameComponent implements OnInit {
         }
 
         if (this.removeSpacesAndToLower(this.currentQuestion?.word) === this.removeSpacesAndToLower(this.answerWord)) {
-            const successAudio = new Audio('assets/success.mp3');
-            successAudio.volume = 0.05;
-            successAudio.play()
-                .then(() => {
-                    this.rightAnswer = '';
-                    this.nextQuestion();
-                });
+            this.success.nativeElement.volume = 0.1;
+            this.success.nativeElement.play().then()
+            this.rightAnswer = '';
+            this.nextQuestion();
+            // const successAudio = new Audio('assets/success.mp3');
+            // successAudio.volume = 0.1;
+            // successAudio.play()
+            //     .then(() => {
+            //
+            //     });
         } else {
-            const failAudio = new Audio('assets/fail.mp3');
-            failAudio.volume = 0.05;
-            failAudio.play()
-                .then(() => {
-                    this.rightAnswer = this.currentQuestion?.word;
-                });
+            // const failAudio = new Audio('assets/fail.mp3');
+            // failAudio.volume = 0.1;
+            this.fail.nativeElement.volume = 0.1;
+            this.fail.nativeElement.play().then()
+            this.rightAnswer = this.currentQuestion?.word;
+            // failAudio.play().then();
         }
     }
 
