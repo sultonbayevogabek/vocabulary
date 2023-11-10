@@ -3,19 +3,20 @@ import { VocabularyListComponent } from './vocabulary-list.component';
 import { VocabularyListRoutingModule } from './vocabulary-list-routing.module';
 import { NgForOf, NgIf } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     VocabularyListComponent
   ],
-  imports: [
-    VocabularyListRoutingModule,
-    NgForOf,
-    NgxPaginationModule,
-    ReactiveFormsModule,
-    NgIf
-  ]
+    imports: [
+        VocabularyListRoutingModule,
+        NgForOf,
+        NgxPaginationModule,
+        ReactiveFormsModule,
+        NgIf,
+        FormsModule
+    ]
 })
 
 export class VocabularyListModule {
