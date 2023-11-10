@@ -78,19 +78,10 @@ export class VocabularyGameComponent implements OnInit {
             this.success.nativeElement.play().then()
             this.rightAnswer = '';
             this.nextQuestion();
-            // const successAudio = new Audio('assets/success.mp3');
-            // successAudio.volume = 0.1;
-            // successAudio.play()
-            //     .then(() => {
-            //
-            //     });
         } else {
-            // const failAudio = new Audio('assets/fail.mp3');
-            // failAudio.volume = 0.1;
             this.fail.nativeElement.volume = 0.1;
             this.fail.nativeElement.play().then()
             this.rightAnswer = this.currentQuestion?.word;
-            // failAudio.play().then();
         }
     }
 
