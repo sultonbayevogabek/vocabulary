@@ -13,7 +13,7 @@
     </div>
 
     <div class="px-1 mb-3" *ngIf="showSearchInput">
-        <input class="form-control" type="text" placeholder="Search word..." [(ngModel)]="search" (input)="searchWord()">
+        <input class="form-control rounded-0" type="text" placeholder="Search word..." [(ngModel)]="search" (input)="searchWord()">
     </div>
 
     <div class="d-flex align-items-start justify-content-between mb-1 px-1 position-relative">
@@ -24,7 +24,7 @@
                 [nextLabel]="''"
         ></pagination-controls>
 
-        <button class="btn btn-primary" (click)="toggleSearchInput()">
+        <button class="btn btn-primary rounded-0" (click)="toggleSearchInput()">
             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff"
                  version="1.1" id="Capa_1" width="20px" height="20px" viewBox="0 0 940.2 940.2" xml:space="preserve">
                 <g>
