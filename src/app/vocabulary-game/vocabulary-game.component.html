@@ -3,17 +3,17 @@
         <h3 class="fs-3 text-uppercase" (click)="toggleFullScreen()">Game</h3>
 
         <div class="d-flex w-75 gap-2">
-            <button class="btn btn-outline-info w-50 rounded-0 fw-bold">
+            <button class="btn btn-outline-info w-50 fw-bold fs-4">
                 {{ totalQuestionsCount }} | {{ resolvedQuestionsCount }}
             </button>
-            <button class="btn btn-danger w-50 rounded-0" routerLink="/">Exit</button>
+            <button class="btn btn-danger w-50 fs-4" routerLink="/">Exit</button>
         </div>
     </div>
 
     <div [class.visually-hidden]="!currentQuestion" class="fs-4">
         <div>{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></div>
 
-        <div class="mt-2 border-danger px-4 py-2 bg-danger text-white fs-4" *ngIf="rightAnswer">
+        <div class="mt-2 border-danger px-3 py-2 bg-danger text-white fs-4" *ngIf="rightAnswer">
             Right answer: <strong>{{ rightAnswer }}</strong>
         </div>
 
@@ -21,13 +21,13 @@
             <textarea
                     #answerInput
                     [(ngModel)]="answerWord"
-                    class="form-control rounded-0 fs-4"
+                    class="form-control fs-4"
                     placeholder="Type answer here..."
                     (keydown.enter)="$event.preventDefault(); answer()"
             ></textarea>
 
             <div class="d-flex align-items-center justify-content-end gap-2 pt-2">
-                <button class="btn btn-primary w-100 rounded-0 py-3 fs-4" (click)="answer()" [disabled]="!answerWord">Submit</button>
+                <button class="btn btn-primary w-100 fs-4" (click)="answer()" [disabled]="!answerWord">Submit</button>
             </div>
         </div>
     </div>

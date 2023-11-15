@@ -140,7 +140,8 @@ export class VocabularyListComponent implements OnInit {
     searchWord(): void {
         this.currentPage = 1;
         this.vocabularies = this.vocabulariesReserve.filter(voc => {
-            return voc.word?.toLowerCase().includes(this.search.toLowerCase()) || voc.definition?.toLowerCase().includes(this.search.toLowerCase());
+            return voc.word?.toLowerCase().includes(this.search.toLowerCase())
+                || voc.definition?.toLowerCase().includes(this.search.toLowerCase());
         });
     }
 }
