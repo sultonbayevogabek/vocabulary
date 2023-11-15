@@ -75,6 +75,7 @@ export class VocabularyListComponent implements OnInit {
             .subscribe(res => {
                 if (res) {
                     this.vocabularies = [];
+                    this.vocabulariesReserve = [];
                     for (const key in res) {
                         this.vocabularies.push({
                             ...res[key],
@@ -91,6 +92,7 @@ export class VocabularyListComponent implements OnInit {
                 }
             }, () => {
                 this.vocabularies = [];
+                this.vocabulariesReserve = [];
             });
     }
 
