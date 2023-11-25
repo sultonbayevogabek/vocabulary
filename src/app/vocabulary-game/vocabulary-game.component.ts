@@ -41,7 +41,6 @@ export class VocabularyGameComponent implements OnInit {
             this.speechRecognizer.lang = 'en-US';
 
             this.speechRecognizer.onresult = (event: any) => {
-                console.log(event?.results[0][0].transcript);
                 this.answerWord = event?.results[0][0].transcript;
                 this._changeDetection.detectChanges();
             }
