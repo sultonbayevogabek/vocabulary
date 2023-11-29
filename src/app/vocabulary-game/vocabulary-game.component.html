@@ -29,8 +29,8 @@
             
             <button (click)="speech()"
                     [class.animated]="recording"
-                    class="btn btn-primary microphone rounded-circle position-absolute progress-bar-animated" style="width: 60px; height: 60px; top: 10px; right: 2px">
-                <img src="assets/microphone.svg" alt="">
+                    class="btn btn-primary rounded-circle position-absolute" style="width: 60px; height: 60px; top: 10px; right: 2px">
+                <img [ngSrc]="'assets/microphone.svg'" alt="" height="24" width="24">
             </button>
 
             <div class="d-flex align-items-center justify-content-end gap-2 pt-2">

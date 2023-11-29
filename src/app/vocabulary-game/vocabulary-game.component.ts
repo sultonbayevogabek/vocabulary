@@ -116,14 +116,6 @@ export class VocabularyGameComponent implements OnInit {
             const index = this.generateRandomIndex(this.vocabularies.length);
             this.currentQuestion = this.vocabularies[index];
             this.vocabularies.splice(index, 1);
-            try {
-                setTimeout(() => {
-                    this.speechRecognizer?.start();
-                    this.recording = true;
-                }, 10)
-
-            } catch (e) {
-            }
         }
     }
 
