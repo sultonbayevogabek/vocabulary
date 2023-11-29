@@ -1,11 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { VocabularyService } from '../services/vocabulary.service';
-import { IVocabulary } from '../models/models';
+import {ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
+import {VocabularyService} from '../services/vocabulary.service';
+import {IVocabulary} from '../models/models';
+import {ChangeDetection} from "@angular/cli/lib/config/workspace-schema";
+
+declare var webkitSpeechRecognition: any;
 
 @Component({
     selector: 'vocabulary-game',
     templateUrl: './vocabulary-game.component.html',
-    styleUrls: [ './vocabulary-game.component.scss' ],
+    styleUrls: ['./vocabulary-game.component.scss'],
     encapsulation: ViewEncapsulation.None
 })
 
@@ -19,14 +22,29 @@ export class VocabularyGameComponent implements OnInit {
     public currentQuestion!: IVocabulary;
     public rightAnswer: string = '';
     public answerWord = '';
+    public recording = false;
+
+    public speechRecognizer = new webkitSpeechRecognition();
 
     constructor(
-        private _vocabularyService: VocabularyService
+        private _vocabularyService: VocabularyService,
+        private _changeDetection: ChangeDetectorRef
     ) {
     }
 
     ngOnInit(): void {
         this.getVocabulariesList();
+
+        if ('webkitSpeechRecognition' in window) {
+            this.speechRecognizer.continuous = true;
+            this.speechRecognizer.interimResults = true;
+            this.speechRecognizer.lang = 'en-US';
+
+            this.speechRecognizer.onresult = (event: any) => {
+                this.answerWord = event?.results[0][0].transcript;
+                this._changeDetection.detectChanges();
+            }
+        }
     }
 
     removeSpacesAndToLower(text: string): string {
@@ -73,6 +91,10 @@ export class VocabularyGameComponent implements OnInit {
             return;
         }
 
+        this.speechRecognizer.abort();
+        this.speechRecognizer.stop();
+        this.recording = false;
+
         if (this.removeSpacesAndToLower(this.currentQuestion?.word) === this.removeSpacesAndToLower(this.answerWord)) {
             this.success.nativeElement.volume = 0.1;
             this.success.nativeElement.play().then()
@@ -94,6 +116,25 @@ export class VocabularyGameComponent implements OnInit {
             const index = this.generateRandomIndex(this.vocabularies.length);
             this.currentQuestion = this.vocabularies[index];
             this.vocabularies.splice(index, 1);
+            try {
+                setTimeout(() => {
+                    this.speechRecognizer?.start();
+                    this.recording = true;
+                }, 10)
+
+            } catch (e) {
+            }
         }
+    }
+
+    speech() {
+        this.recording = !this.recording;
+
+        if (this.recording) {
+            this.speechRecognizer.start();
+            return;
+        }
+
+        this.speechRecognizer.stop();
     }
 }

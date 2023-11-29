@@ -147,4 +147,17 @@ export class VocabularyListComponent implements OnInit {
                 || voc.definition?.toLowerCase().includes(this.search.toLowerCase());
         });
     }
+
+    textToSpeech(word: any): void {
+        console.log(word)
+        const speech = new SpeechSynthesisUtterance();
+
+        speech.lang = "en-US";
+        speech.text = word;
+        speech.volume = 1;
+        speech.rate = 1;
+        speech.pitch = 1;
+
+        window.speechSynthesis.speak(speech);
+    }
 }

@@ -72,7 +72,7 @@
                 <td class="align-top border py-1 px-2 text-center">
                     {{ item?.index }}
                 </td>
-                <td class="border">
+                <td class="border position-relative">
                         <textarea
                                 class="d-block w-100 h-100 bg-transparent border-0 fw-bold"
                                 #word
@@ -80,6 +80,8 @@
                                 (focusout)="updateVocabulary(item, word.value, definition.value)"
                                 (keydown.enter)="$event.preventDefault(); updateVocabulary(item, word.value, definition.value)"
                         ></textarea>
+
+                    <img width="20" style="position: absolute; top: 1px; right: 1px; cursor:pointer;" class="position-absolute" src="assets/voice.png" (click)="textToSpeech(item?.word)" alt="">
                 </td>
                 <td class="border">
                         <textarea
