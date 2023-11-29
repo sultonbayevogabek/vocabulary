@@ -12,8 +12,9 @@
         </div>
     </div>
 
-    <div class="px-1 mb-3" *ngIf="showSearchInput">
+    <div class="d-flex gap-2 px-1 mb-3" *ngIf="showSearchInput">
         <input class="form-control rounded-0" type="text" placeholder="Search word..." [(ngModel)]="search" (input)="searchWord()">
+        <input class="form-control rounded-0" type="number" placeholder="Page number" #pageInput (keydown.enter)="currentPage = +pageInput.value">
     </div>
 
     <div class="d-flex align-items-start justify-content-between mb-1 px-1 position-relative">
