@@ -81,7 +81,13 @@
                                 (keydown.enter)="$event.preventDefault(); updateVocabulary(item, word.value, definition.value)"
                         ></textarea>
 
-                    <img width="20" style="position: absolute; top: 1px; right: 1px; cursor:pointer;" class="position-absolute" src="assets/voice.png" (click)="textToSpeech(item?.word)" alt="">
+                    <img width="20"
+                         style="position: absolute; top: 1px; right: 1px; cursor:pointer;"
+                         class="position-absolute"
+                         [ngSrc]="'assets/voice.png'"
+                         (click)="textToSpeech(item?.word)"
+                         alt=""
+                         height="20">
                 </td>
                 <td class="border">
                         <textarea
