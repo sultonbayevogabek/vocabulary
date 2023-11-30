@@ -113,14 +113,6 @@ export class VocabularyListComponent implements OnInit {
         }
     }
 
-    toggleFullScreen(): void {
-        if (document.fullscreen) {
-            document.exitFullscreen().then();
-        } else {
-            document.documentElement.requestFullscreen().then();
-        }
-    }
-
     play(): void {
         const interval = prompt('Enter questions interval', '1-' + this.vocabularies?.length);
 
@@ -149,7 +141,6 @@ export class VocabularyListComponent implements OnInit {
     }
 
     textToSpeech(word: any): void {
-        console.log(word)
         const speech = new SpeechSynthesisUtterance();
 
         speech.lang = "en-US";

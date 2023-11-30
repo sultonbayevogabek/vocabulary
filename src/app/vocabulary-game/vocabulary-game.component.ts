@@ -23,6 +23,7 @@ export class VocabularyGameComponent implements OnInit {
     public rightAnswer: string = '';
     public answerWord = '';
     public recording = false;
+    public intervals: string | null = null;
 
     public speechRecognizer = new webkitSpeechRecognition();
 
@@ -58,9 +59,10 @@ export class VocabularyGameComponent implements OnInit {
                     for (const key in res) {
                         this.vocabularies.push(res[key]);
                     }
-                    const intervals = JSON.parse(localStorage.getItem('interval')!).split('-');
-                    const fromIndex = +intervals![0];
-                    const toIndex = +intervals![1];
+                    this.intervals = JSON.parse(localStorage.getItem('interval')!);
+                    const numbers = this.intervals?.split('-');
+                    const fromIndex = +numbers![0];
+                    const toIndex = +numbers![1];
                     this.vocabularies = this.vocabularies.slice(fromIndex - 1, toIndex);
                     this.totalQuestionsCount = this.vocabularies.length;
                     this.startGame();
@@ -68,14 +70,6 @@ export class VocabularyGameComponent implements OnInit {
             }, () => {
                 this.vocabularies = [];
             });
-    }
-
-    toggleFullScreen(): void {
-        if (document.fullscreen) {
-            document.exitFullscreen().then();
-        } else {
-            document.documentElement.requestFullscreen().then();
-        }
     }
 
     generateRandomIndex(remindersLength: number): number {
@@ -97,7 +91,18 @@ export class VocabularyGameComponent implements OnInit {
 
         if (this.removeSpacesAndToLower(this.currentQuestion?.word) === this.removeSpacesAndToLower(this.answerWord)) {
             this.success.nativeElement.volume = 0.1;
-            this.success.nativeElement.play().then()
+
+            const speech = new SpeechSynthesisUtterance();
+
+            speech.lang = "en-US";
+            speech.text = this.answerWord;
+            speech.volume = 1;
+            speech.rate = 1;
+            speech.pitch = 1;
+
+            window.speechSynthesis.speak(speech)
+
+            // this.success.nativeElement.play()
             this.rightAnswer = '';
             this.nextQuestion();
         } else {
