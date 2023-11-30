@@ -91,7 +91,18 @@ export class VocabularyGameComponent implements OnInit {
 
         if (this.removeSpacesAndToLower(this.currentQuestion?.word) === this.removeSpacesAndToLower(this.answerWord)) {
             this.success.nativeElement.volume = 0.1;
-            this.success.nativeElement.play().then()
+
+            const speech = new SpeechSynthesisUtterance();
+
+            speech.lang = "en-US";
+            speech.text = this.answerWord;
+            speech.volume = 1;
+            speech.rate = 1;
+            speech.pitch = 1;
+
+            window.speechSynthesis.speak(speech)
+
+            // this.success.nativeElement.play()
             this.rightAnswer = '';
             this.nextQuestion();
         } else {

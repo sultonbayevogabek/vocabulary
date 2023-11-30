@@ -141,7 +141,6 @@ export class VocabularyListComponent implements OnInit {
     }
 
     textToSpeech(word: any): void {
-        console.log(word)
         const speech = new SpeechSynthesisUtterance();
 
         speech.lang = "en-US";
