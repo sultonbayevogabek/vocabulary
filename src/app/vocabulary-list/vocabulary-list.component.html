@@ -60,9 +60,9 @@
 
         <div class="col-md-2 px-1">
             <button
-                    [disabled]="vocabularyForm.invalid"
+                    [disabled]="vocabularyForm.invalid || !networkStatus"
                     class="btn btn-primary w-100 h-100 rounded-0">
-                Add +
+                {{ networkStatus ? 'Add' : 'No internet connection' }}
             </button>
         </div>
     </form>

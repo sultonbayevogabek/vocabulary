@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VocabularyService } from '../services/vocabulary.service';
 import { IVocabulary } from '../models/models';
 import { Router } from '@angular/router';
+import { fromEvent, map, merge, of, Subscription } from 'rxjs';
 
 @Component({
     selector: 'vocabulary-list',
@@ -24,6 +25,9 @@ export class VocabularyListComponent implements OnInit {
     public vocabulariesReserve: IVocabulary[] = [];
     public currentPage = 1;
 
+    public networkStatus: boolean = false;
+    public networkStatus$: Subscription = Subscription.EMPTY;
+
     constructor(
         private _vocabularyService: VocabularyService,
         private _router: Router
@@ -31,6 +35,7 @@ export class VocabularyListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.checkNetworkStatus();
         this.getVocabulariesList();
     }
 
@@ -150,5 +155,18 @@ export class VocabularyListComponent implements OnInit {
         speech.pitch = 1;
 
         window.speechSynthesis.speak(speech);
+    }
+
+    checkNetworkStatus() {
+        this.networkStatus = navigator.onLine;
+        this.networkStatus$ = merge(
+            of(null),
+            fromEvent(window, 'online'),
+            fromEvent(window, 'offline')
+        )
+            .pipe(map(() => navigator.onLine))
+            .subscribe(status => {
+                this.networkStatus = status;
+            });
     }
 }
