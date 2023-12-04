@@ -17,6 +17,7 @@ export class VocabularyGameComponent implements OnInit {
     @ViewChild('success') success!: ElementRef;
     @ViewChild('fail') fail!: ElementRef;
     public vocabularies: IVocabulary[] = [];
+    public mistakes: IVocabulary[] = [];
     public totalQuestionsCount = 0;
     public resolvedQuestionsCount = 0;
     public currentQuestion!: IVocabulary;
@@ -102,17 +103,28 @@ export class VocabularyGameComponent implements OnInit {
 
             window.speechSynthesis.speak(speech)
 
-            // this.success.nativeElement.play()
             this.rightAnswer = '';
             this.nextQuestion();
         } else {
             this.fail.nativeElement.volume = 0.1;
             this.fail.nativeElement.play().then()
             this.rightAnswer = this.currentQuestion?.word;
+
+            const isExist = this.mistakes.find(m => m.id === this.currentQuestion.id);
+
+            if (!isExist) {
+                this.mistakes.push(this.currentQuestion);
+            }
         }
     }
 
     nextQuestion(): void {
+        if (this.totalQuestionsCount === this.resolvedQuestionsCount && this.mistakes.length) {
+            this.totalQuestionsCount = this.mistakes.length;
+            this.resolvedQuestionsCount = 0;
+            this.vocabularies = this.mistakes;
+            this.mistakes = [];
+        }
         if (this.totalQuestionsCount > this.resolvedQuestionsCount) {
             this.answerInput.nativeElement.focus();
             this.resolvedQuestionsCount++;
