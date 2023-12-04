@@ -100,6 +100,22 @@
                 </td>
             </tr>
         </table>
+
+        <table style="border-spacing: 40px !important;" *ngIf="loading">
+            <tr *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]">
+                <td style="width: 10%; overflow: hidden">
+                    <div style="height: 50px" class="skeleton"></div>
+                </td>
+
+                <td style="width: 45%; overflow: hidden">
+                    <div style="height: 50px" class="skeleton"></div>
+                </td>
+
+                <td style="width: 45%; overflow: hidden">
+                    <div style="height: 50px" class="skeleton"></div>
+                </td>
+            </tr>
+        </table>
     </div>
 
 </div>
