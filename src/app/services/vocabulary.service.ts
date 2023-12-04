@@ -13,7 +13,7 @@ export class VocabularyService {
   constructor(
     private _http: HttpClient
   ) {
-    this._host = 'https://vocabulary-eaf35-default-rtdb.firebaseio.com/vocabularies.json';
+    this._host = 'https://vocabulary-eaf35-default-rtdb.firebaseio.com/' + window.location.host.split('.')[0] + '.json';
   }
 
   getVocabulariesList(): Observable<IVocabulary[]> {
