@@ -45,12 +45,6 @@ export class VocabularyGameComponent implements OnInit {
                 this.answerWord = event?.results[0][0].transcript;
                 this._changeDetection.detectChanges();
             }
-
-            this.speechRecognizer.onend = (event: any) => {
-                console.log(event);
-                this.answerWord = event?.results[0][0].transcript;
-                this._changeDetection.detectChanges();
-            }
         }
     }
 
