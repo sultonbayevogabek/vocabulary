@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VocabularyService } from '../services/vocabulary.service';
 import { IVocabulary } from '../models/models';
 import { Router } from '@angular/router';
-import { fromEvent, map, merge, of, Subscription } from 'rxjs';
+import { fromEvent, map, merge, of, repeat, Subscription } from 'rxjs';
 
 @Component({
     selector: 'vocabulary-list',
@@ -17,6 +17,7 @@ export class VocabularyListComponent implements OnInit {
     public showVocabularyForm = false;
     public showSearchInput = false;
     public search = '';
+    public loading = true;
     public vocabularyForm: FormGroup = new FormGroup({
         word: new FormControl('', Validators.required),
         definition: new FormControl('', Validators.required)
@@ -44,7 +45,6 @@ export class VocabularyListComponent implements OnInit {
     }
 
     addNewWord(): void {
-        console.log(this.networkStatus);
         if (this.vocabularyForm.invalid || !this.networkStatus) {
             return;
         }
@@ -79,6 +79,7 @@ export class VocabularyListComponent implements OnInit {
     getVocabulariesList(afterAddingNewWord = false): void {
         this._vocabularyService.getVocabulariesList()
             .subscribe(res => {
+                this.loading = false;
                 if (res) {
                     this.vocabularies = [];
                     this.vocabulariesReserve = [];
@@ -170,4 +171,7 @@ export class VocabularyListComponent implements OnInit {
                 this.networkStatus = status;
             });
     }
+
+    protected readonly repeat = repeat;
+    protected readonly Array = Array;
 }
