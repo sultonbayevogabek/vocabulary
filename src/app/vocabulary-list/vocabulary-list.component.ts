@@ -44,6 +44,7 @@ export class VocabularyListComponent implements OnInit {
     }
 
     addNewWord(): void {
+        console.log(this.networkStatus);
         if (this.vocabularyForm.invalid || !this.networkStatus) {
             return;
         }
