@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { VocabularyListComponent } from './vocabulary-list.component';
 import { VocabularyListRoutingModule } from './vocabulary-list-routing.module';
-import { NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
+import { DatePipe, NgForOf, NgIf, NgOptimizedImage } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -16,7 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
         ReactiveFormsModule,
         NgIf,
         FormsModule,
-        NgOptimizedImage
+        NgOptimizedImage,
+        DatePipe
     ]
 })
 

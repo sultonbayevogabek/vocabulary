@@ -3,4 +3,5 @@ export interface IVocabulary {
   id?: string;
   word: string;
   definition: string;
+  date?: Date
 }

@@ -71,7 +71,10 @@
         <table>
             <tr *ngFor="let item of vocabularies | paginate: { itemsPerPage: 20, currentPage }">
                 <td class="align-top border py-1 px-2 text-center">
-                    {{ item?.index }}
+                    <div>{{ item?.index }}</div>
+                    <div style="font-size: 10px; margin-top: -3px" *ngIf="item?.date">
+                        {{ item.date| date: 'dd.MM.YYYY'}}
+                    </div>
                 </td>
                 <td class="border position-relative">
                         <textarea

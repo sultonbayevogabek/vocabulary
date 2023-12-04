@@ -63,7 +63,8 @@ export class VocabularyListComponent implements OnInit {
         const payload = {
             index: this.vocabulariesReserve?.length + 1,
             word: this.vocabularyForm.get('word')?.value,
-            definition: this.vocabularyForm.get('definition')?.value
+            definition: this.vocabularyForm.get('definition')?.value,
+            date: new Date()
         };
 
         this._vocabularyService.addNewWord(payload)
