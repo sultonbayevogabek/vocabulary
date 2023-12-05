@@ -150,6 +150,7 @@ export class VocabularyListComponent implements OnInit {
     textToSpeech(word: any): void {
         const speech = new SpeechSynthesisUtterance();
 
+        speech.lang = 'en-US';
         speech.text = word;
         speech.volume = 1;
         speech.rate = 1;
