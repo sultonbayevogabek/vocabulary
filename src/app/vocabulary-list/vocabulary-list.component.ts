@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VocabularyService } from '../services/vocabulary.service';
 import { IVocabulary } from '../models/models';
 import { Router } from '@angular/router';
-import { fromEvent, map, merge, of, repeat, Subscription } from 'rxjs';
 
 @Component({
     selector: 'vocabulary-list',
@@ -26,9 +25,6 @@ export class VocabularyListComponent implements OnInit {
     public vocabulariesReserve: IVocabulary[] = [];
     public currentPage = 1;
 
-    public networkStatus: boolean = false;
-    public networkStatus$: Subscription = Subscription.EMPTY;
-
     constructor(
         private _vocabularyService: VocabularyService,
         private _router: Router
@@ -36,7 +32,6 @@ export class VocabularyListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.checkNetworkStatus();
         this.getVocabulariesList();
     }
 
@@ -45,7 +40,7 @@ export class VocabularyListComponent implements OnInit {
     }
 
     addNewWord(): void {
-        if (this.vocabularyForm.invalid || !this.networkStatus) {
+        if (this.vocabularyForm.invalid) {
             return;
         }
 
@@ -60,6 +55,8 @@ export class VocabularyListComponent implements OnInit {
             return;
         }
 
+        this.vocabularyForm.disable();
+
         const payload = {
             index: this.vocabulariesReserve?.length + 1,
             word: this.vocabularyForm.get('word')?.value,
@@ -70,10 +67,12 @@ export class VocabularyListComponent implements OnInit {
         this._vocabularyService.addNewWord(payload)
             .subscribe(() => {
                 this.vocabularyForm.reset();
+                this.vocabularyForm.enable();
                 this.wordTextArea.nativeElement.focus();
                 this.getVocabulariesList(true);
             }, () => {
                 alert('Error occurred');
+                this.vocabularyForm.enable();
             });
     }
 
@@ -151,7 +150,6 @@ export class VocabularyListComponent implements OnInit {
     textToSpeech(word: any): void {
         const speech = new SpeechSynthesisUtterance();
 
-        speech.lang = "en-US";
         speech.text = word;
         speech.volume = 1;
         speech.rate = 1;
@@ -159,20 +157,4 @@ export class VocabularyListComponent implements OnInit {
 
         window.speechSynthesis.speak(speech);
     }
-
-    checkNetworkStatus() {
-        this.networkStatus = navigator.onLine;
-        this.networkStatus$ = merge(
-            of(null),
-            fromEvent(window, 'online'),
-            fromEvent(window, 'offline')
-        )
-            .pipe(map(() => navigator.onLine))
-            .subscribe(status => {
-                this.networkStatus = status;
-            });
-    }
-
-    protected readonly repeat = repeat;
-    protected readonly Array = Array;
 }
