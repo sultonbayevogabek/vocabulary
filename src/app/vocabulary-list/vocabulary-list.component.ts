@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ElementRef, OnInit, signal, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { VocabularyService } from '../services/vocabulary.service';
 import { IVocabulary } from '../models/models';
@@ -127,7 +127,7 @@ export class VocabularyListComponent implements OnInit {
         const fromIndex = +numbers![0];
         const toIndex = +numbers![1];
 
-        const vocabularies = this.vocabulariesReserve.slice(fromIndex - 1, toIndex)
+        const vocabularies = this.vocabulariesReserve.slice(fromIndex - 1, toIndex);
 
         if (interval && vocabularies?.length) {
             localStorage.setItem('interval', JSON.stringify(interval));
@@ -156,5 +156,24 @@ export class VocabularyListComponent implements OnInit {
 
     textToSpeech(word: string | undefined) {
         this._vocabularyService.textToSpeech(word);
+    }
+
+    listen(): void {
+        const interval = prompt('Enter interval', '1-' + this.vocabulariesReserve.length);
+        const numbers = interval?.split('-');
+        const fromIndex = +numbers![0];
+        const toIndex = +numbers![1];
+        const words = this.vocabulariesReserve.slice(fromIndex - 1, toIndex);
+
+        let count = 0;
+        const setInt = setInterval(() => {
+            if (count < words.length) {
+                this._vocabularyService.textToSpeech(words[count].word);
+                count++;
+            } else {
+                this._vocabularyService.textToSpeech('The End');
+                clearInterval(setInt);
+            }
+        }, 2000);
     }
 }
