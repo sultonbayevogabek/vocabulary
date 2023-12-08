@@ -123,8 +123,15 @@ export class VocabularyListComponent implements OnInit {
     play(): void {
         const interval = prompt('Enter questions interval', '1-' + this.vocabularies?.length);
 
-        if (interval) {
+        const numbers = interval?.split('-');
+        const fromIndex = +numbers![0];
+        const toIndex = +numbers![1];
+
+        const vocabularies = this.vocabulariesReserve.slice(fromIndex - 1, toIndex)
+
+        if (interval && vocabularies?.length) {
             localStorage.setItem('interval', JSON.stringify(interval));
+            localStorage.setItem('vocabularies', JSON.stringify(vocabularies));
             this._router.navigate([ '/game' ]).then();
         }
     }
@@ -147,15 +154,7 @@ export class VocabularyListComponent implements OnInit {
         });
     }
 
-    textToSpeech(word: any): void {
-        const speech = new SpeechSynthesisUtterance();
-
-        speech.lang = 'en-US';
-        speech.text = word;
-        speech.volume = 1;
-        speech.rate = 1;
-        speech.pitch = 1;
-
-        window.speechSynthesis.speak(speech);
+    textToSpeech(word: string | undefined) {
+        this._vocabularyService.textToSpeech(word);
     }
 }
