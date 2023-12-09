@@ -16,7 +16,7 @@
     </div>
 
     <div [class.visually-hidden]="!currentQuestion" class="fs-4">
-        <div>{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></div>
+        <label class="d-block" for="text">{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></label>
 
         <div class="mt-2 border-danger px-3 py-2 bg-danger text-white fs-4" *ngIf="rightAnswer">
             Right answer: <strong>{{ rightAnswer }}</strong>
@@ -24,23 +24,22 @@
 
         <div class="pt-2 position-relative">
             <textarea
-                style="padding-right: 70px"
+                    id="text"
+                    style="padding-right: 70px"
+                    rows="5"
                     #answerInput
                     [(ngModel)]="answerWord"
                     class="form-control fs-4"
-                    placeholder="Type answer here..."
+                    placeholder="Type answer and press Enter"
                     (keydown.enter)="$event.preventDefault(); answer()"
             ></textarea>
-            
+
             <button (click)="speech()"
                     [class.animated]="recording"
-                    class="btn btn-primary rounded-circle position-absolute" style="width: 60px; height: 60px; top: 10px; right: 2px">
+                    class="btn btn-primary rounded-circle position-absolute"
+                    style="width: 60px; height: 60px; top: 10px; right: 2px">
                 <img [ngSrc]="'assets/microphone.svg'" alt="" height="24" width="24">
             </button>
-
-            <div class="d-flex align-items-center justify-content-end gap-2 pt-2">
-                <button class="btn btn-primary w-100 fs-4" (click)="answer()" [disabled]="!answerWord">Submit</button>
-            </div>
         </div>
     </div>
 
