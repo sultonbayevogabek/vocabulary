@@ -1,9 +1,16 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import {
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    HostListener,
+    OnInit,
+    ViewChild,
+    ViewEncapsulation
+} from '@angular/core';
 import { IVocabulary } from '../models/models';
 import { VocabularyService } from '../services/vocabulary.service';
 
 declare var webkitSpeechRecognition: any;
-
 @Component({
     selector: 'vocabulary-game',
     templateUrl: './vocabulary-game.component.html',
@@ -12,6 +19,12 @@ declare var webkitSpeechRecognition: any;
 })
 
 export class VocabularyGameComponent implements OnInit {
+    @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+        if (event.key === 'Shift') {
+            this.answer();
+        }
+    }
     @ViewChild('answerInput', { static: true }) answerInput!: ElementRef;
     @ViewChild('success') success!: ElementRef;
     @ViewChild('fail') fail!: ElementRef;
