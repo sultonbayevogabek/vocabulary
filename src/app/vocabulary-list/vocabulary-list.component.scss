@@ -32,6 +32,7 @@
    background-size: 200% 100%;
    animation: 1.5s shine linear infinite;
    overflow: hidden;
+   background-attachment: fixed;
 }
 
 @keyframes shine {
