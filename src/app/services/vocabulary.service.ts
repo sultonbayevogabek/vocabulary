@@ -30,9 +30,9 @@ export class VocabularyService {
         return this._http.post<{ success: boolean }>(this._host, payload);
     }
 
-    updateVocabulary(id: string, payload: IVocabulary): Observable<{ success: boolean }> {
+    updateVocabulary(payload: IVocabulary): Observable<{ success: boolean }> {
         return this._http.patch<{ success: boolean }>(this._host, JSON.stringify({
-            [id]: payload
+            [payload.id!]: payload
         }));
     }
 

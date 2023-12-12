@@ -4,4 +4,6 @@ export interface IVocabulary {
   word: string;
   definition: string;
   date?: Date;
+  sentences?: string;
+  sentencesMobile?: boolean
 }

@@ -57,7 +57,7 @@
     <form class="row gap-2 pt-1 gap-md-0 pb-3 px-1" [class.visually-hidden]="!showVocabularyForm"
           [formGroup]="vocabularyForm"
           (ngSubmit)="addNewWord()">
-        <div class="col-md-6">
+        <div class="col-md-4">
                   <textarea
                       #wordTextArea
                       class="form-control rounded-0"
@@ -67,7 +67,7 @@
                   ></textarea>
         </div>
 
-        <div class="col-md-6">
+        <div class="col-md-4">
                     <textarea
                             class="form-control rounded-0"
                             placeholder="Definition"
@@ -75,43 +75,83 @@
                             (keydown.enter)="$event.preventDefault(); addNewWord()"
                     ></textarea>
         </div>
+
+        <div class="col-md-4">
+                <textarea
+                        class="form-control rounded-0"
+                        placeholder="Sentences"
+                        [formControlName]="'sentences'"
+                        (keydown.enter)="$event.preventDefault(); addNewWord()"
+                ></textarea>
+        </div>
     </form>
 
     <div class="d-flex flex-column flex-grow-1 gap-1 px-1 pb-3 pt-1 overflow-auto">
         <table>
-            <tr *ngFor="let item of vocabularies | paginate: { itemsPerPage: 20, currentPage }">
-                <td class="align-top border py-1 px-2 text-center">
-                    <div>{{ item?.index }}</div>
-                    <div style="font-size: 10px; margin-top: -3px" *ngIf="item?.date">
-                        {{ item.date| date: 'dd.MM.YYYY' }}
-                    </div>
-                </td>
-                <td class="border position-relative">
+            <ng-container *ngFor="let item of vocabularies | paginate: { itemsPerPage: 20, currentPage }">
+                <tr>
+                    <td class="align-top border py-1 px-2 text-center">
+                        <div>{{ item?.index }}</div>
+                        <div style="font-size: 10px; margin-top: -3px" *ngIf="item?.date">
+                            {{ item.date| date: 'dd.MM.YYYY' }}
+                        </div>
+                    </td>
+                    <td class="border position-relative">
                         <textarea
                                 class="d-block w-100 h-100 bg-transparent border-0 fw-bold"
-                                #word
-                                [value]="item?.word"
-                                (focusout)="updateVocabulary(item, word.value, definition.value)"
-                                (keydown.enter)="$event.preventDefault(); updateVocabulary(item, word.value, definition.value)"
+                                [(ngModel)]="item.word"
+                                (focusout)="updateVocabulary(item)"
+                                (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
                         ></textarea>
 
-                    <img width="20"
-                         style="position: absolute; top: 1px; right: 1px; cursor:pointer;"
-                         class="position-absolute"
-                         src="assets/voice.png"
-                         (click)="textToSpeech(item?.word)"
-                         alt=""
-                         height="20">
-                </td>
-                <td class="border">
+                        <img width="20"
+                             style="position: absolute; top: 1px; right: 1px; cursor:pointer;"
+                             class="position-absolute"
+                             src="assets/voice.png"
+                             (click)="textToSpeech(item?.word)"
+                             alt=""
+                             height="20">
+                    </td>
+                    <td class="border position-relative">
                         <textarea
-                                class="d-block w-100 h-100 bg-transparent border-0" #definition
-                                [value]="item?.definition"
-                                (focusout)="updateVocabulary(item, word.value, definition.value)"
-                                (keydown.enter)="$event.preventDefault(); updateVocabulary(item, word.value, definition.value)"
+                                class="d-block w-100 h-100 bg-transparent border-0"
+                                [(ngModel)]="item.definition"
+                                (focusout)="updateVocabulary(item)"
+                                (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
                         ></textarea>
-                </td>
-            </tr>
+
+                        <img width="20"
+                             style="position: absolute; top: 1px; right: 1px; cursor:pointer;"
+                             class="position-absolute d-block d-md-none"
+                             src="assets/sentences.svg"
+                             (click)="item.sentencesMobile = !item.sentencesMobile"
+                             alt=""
+                             height="20">
+                    </td>
+
+                    <td class="border d-none d-md-table-cell">
+                        <textarea
+                                placeholder="Sentences"
+                                class="d-block w-100 h-100 bg-transparent border-0"
+                                [(ngModel)]="item.sentences"
+                                (focusout)="updateVocabulary(item)"
+                                (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
+                        ></textarea>
+                    </td>
+                </tr>
+
+                <tr *ngIf="item?.sentencesMobile">
+                    <td class="border" colspan="4">
+                        <textarea
+                                placeholder="Sentences"
+                                class="d-block w-100 h-100 bg-transparent border-0"
+                                [(ngModel)]="item.sentences"
+                                (focusout)="updateVocabulary(item)"
+                                (keydown.enter)="$event.preventDefault(); updateVocabulary(item)"
+                        ></textarea>
+                    </td>
+                </tr>
+            </ng-container>
         </table>
 
         <table style="border-spacing: 40px !important;" *ngIf="loading">

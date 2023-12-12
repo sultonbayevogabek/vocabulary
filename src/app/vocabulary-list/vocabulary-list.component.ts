@@ -19,11 +19,14 @@ export class VocabularyListComponent implements OnInit {
     public loading = true;
     public vocabularyForm: FormGroup = new FormGroup({
         word: new FormControl('', Validators.required),
-        definition: new FormControl('', Validators.required)
+        definition: new FormControl('', Validators.required),
+        sentences: new FormControl(''),
     });
     public vocabularies: IVocabulary[] = [];
     public vocabulariesReserve: IVocabulary[] = [];
     public currentPage = 1;
+
+    public isDesktop = true;
 
     constructor(
         private _vocabularyService: VocabularyService,
@@ -32,6 +35,9 @@ export class VocabularyListComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (document.documentElement.offsetWidth < 768) {
+            this.isDesktop = false;
+        }
         this.getVocabulariesList();
     }
 
@@ -103,12 +109,8 @@ export class VocabularyListComponent implements OnInit {
             });
     }
 
-    updateVocabulary(item: IVocabulary, word: string, definition: string) {
-        this._vocabularyService.updateVocabulary(item?.id!, {
-            ...item,
-            word,
-            definition
-        })
+    updateVocabulary(item: IVocabulary) {
+        this._vocabularyService.updateVocabulary(item)
             .subscribe();
     }
 
