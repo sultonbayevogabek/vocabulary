@@ -67,6 +67,7 @@ export class VocabularyListComponent implements OnInit {
             index: this.vocabulariesReserve?.length + 1,
             word: this.vocabularyForm.get('word')?.value,
             definition: this.vocabularyForm.get('definition')?.value,
+            sentences: this.vocabularyForm.get('sentences')?.value,
             date: new Date()
         };
 
