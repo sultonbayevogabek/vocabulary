@@ -32,7 +32,10 @@ export class VocabularyService {
 
     updateVocabulary(payload: IVocabulary): Observable<{ success: boolean }> {
         return this._http.patch<{ success: boolean }>(this._host, JSON.stringify({
-            [payload.id!]: payload
+            [payload.id!]: {
+                ...payload,
+                sentencesMobile: false
+            }
         }));
     }
 
