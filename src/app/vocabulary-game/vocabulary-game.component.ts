@@ -96,7 +96,7 @@ export class VocabularyGameComponent implements OnInit {
         } else {
             this.fail.nativeElement.volume = 0.1;
             this.fail.nativeElement.play().then();
-            this.rightAnswer = this.currentQuestion?.word;
+            this.rightAnswer = this.currentQuestion?.sentences || this.currentQuestion?.word;
 
             const isExist = this.mistakes.find(m => m.id === this.currentQuestion.id);
 

@@ -18,8 +18,8 @@
     <div [class.visually-hidden]="!currentQuestion" class="fs-4">
         <label class="d-block" for="text">{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></label>
 
-        <div class="mt-2 border-danger px-3 py-2 bg-danger text-white fs-4" *ngIf="rightAnswer">
-            Right answer: <strong>{{ rightAnswer }}</strong>
+        <div class="mt-2 border-danger px-3 py-2 bg-danger text-white fs-4 fw-bold" *ngIf="rightAnswer">
+            {{ rightAnswer }}
         </div>
 
         <div class="pt-2 position-relative">
