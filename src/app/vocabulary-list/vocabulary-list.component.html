@@ -131,7 +131,6 @@
 
                     <td class="border d-none d-md-table-cell">
                         <textarea
-                                placeholder="Sentences"
                                 class="d-block w-100 h-100 bg-transparent border-0"
                                 [(ngModel)]="item.sentences"
                                 (focusout)="updateVocabulary(item)"
@@ -143,7 +142,6 @@
                 <tr *ngIf="item?.sentencesMobile">
                     <td class="border" colspan="4">
                         <textarea
-                                placeholder="Sentences"
                                 class="d-block w-100 h-100 bg-transparent border-0 py-2 px-3"
                                 [(ngModel)]="item.sentences"
                                 (focusout)="updateVocabulary(item)"
