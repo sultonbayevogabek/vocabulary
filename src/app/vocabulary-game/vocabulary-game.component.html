@@ -18,7 +18,7 @@
     <div [class.visually-hidden]="!currentQuestion" class="fs-4">
         <label class="d-block" for="text">{{ resolvedQuestionsCount }}) <strong>{{ currentQuestion?.definition }}</strong></label>
 
-        <div class="mt-2 border rounded-1 p-3 fs-6 bg-light">
+        <div class="mt-2 border rounded-1 p-3 fs-6 bg-light" *ngIf="currentQuestion.sentences">
             {{ currentQuestion?.sentences!| hideWord: currentQuestion.word }}
         </div>
 
